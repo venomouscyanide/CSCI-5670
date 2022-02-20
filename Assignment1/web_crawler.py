@@ -1,5 +1,5 @@
 """
-Description : Crawl the web for UOIT webpages in BFS style starting from UOIT home page and save as a GEFX file
+Description : Crawl the web for UOIT webpages in BFS style starting from UOIT home page and save as a GEXF file
 Course      : CSCI 5760
 Author      : Paul Louis <paul.louis@ontariotechu.net>
 """
@@ -13,7 +13,7 @@ from urllib.request import urlopen  # helps make requests to get HTML data
 
 import networkx as nx  # helps in creating a directed graph
 from bs4 import BeautifulSoup  # helps parse webpages
-from networkx import write_gexf  # write traversed graph as a GEFX file
+from networkx import write_gexf  # write traversed graph as a GEXF file
 from scrapy.linkextractors import IGNORED_EXTENSIONS  # common extensions to ignore
 import math  # helps set the max numbers of nodes to be crawled to infinity(no limit)
 
@@ -23,7 +23,7 @@ MAX_URLs = math.inf  # set this to a smaller value for testing
 class UOITCrawler:
     def crawl(self, root: str) -> nx.DiGraph:
         """
-        Crawl all UOIT/Ontariotechu webpages starting from the home page and save the BFS info graph formed as GEFX file
+        Crawl all UOIT/Ontariotechu webpages starting from the home page and save the BFS info graph formed as GEXF file
         :param root: Home page of UOIT
         :return: Directed graph formed after the traversal forming the info network
         """
@@ -98,9 +98,9 @@ class UOITCrawler:
         Randomly sleep to not look like a bot to the server
         :return: None
         """
-        sleep_time = random.randint(0, 3)
+        sleep_time = random.randint(0, 3)  # choose to sleep for [0, 3] seconds
         print(f'Random sleep of {sleep_time} seconds')
-        time.sleep(sleep_time)
+        time.sleep(sleep_time)  # sleep for sleep_time seconds
 
     def _incorrect_extension(self, neigh_node: str) -> bool:
         """
@@ -143,9 +143,9 @@ class UOITCrawler:
         :param graph: Directed Graph holding the BFS traversal info
         :return: None
         """
-        graph.add_edge(focus_node, neigh_node)
-        queue.put(neigh_node)
-        seen.add(neigh_node)
+        graph.add_edge(focus_node, neigh_node)  # update graph with an edge
+        queue.put(neigh_node)  # enqueue
+        seen.add(neigh_node)  # update seen
 
 
 if __name__ == '__main__':
