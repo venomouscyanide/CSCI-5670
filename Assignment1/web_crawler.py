@@ -2,6 +2,7 @@
 Description : Crawl the web for UOIT webpages in BFS style starting from UOIT home page and save as a GEXF file
 Course      : CSCI 5760
 Author      : Paul Louis <paul.louis@ontariotechu.net>
+Usage       : python3.9 web_crawler.py
 """
 import pickle  # I pickle the bfs sequence list to interact with later(if needed)
 import random  # randomly don't crawl for a few seconds
