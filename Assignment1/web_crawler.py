@@ -82,7 +82,7 @@ class UOITCrawler:
     def _continue_crawl(self, queue: SimpleQueue, seen: Set[str]) -> bool:
         """
         Choose whether to exit the crawl
-        The crawl exits when either:
+        The crawl exits either when:
                                     -> The queue is empty
                                     -> a maximum number of URLs have been traversed
         :param queue: Queue object that helps with the BFS traversal
@@ -102,7 +102,7 @@ class UOITCrawler:
 
     def _incorrect_extension(self, neigh_node: str) -> bool:
         """
-        Ignore webpages that host a Picture/PDF
+        Ignore webpages that host a Picture/PDF or other artifacts/objects.
         :return: bool indicating whether to ignore the link
         """
         extension = urlparse(neigh_node).path.split('.')[-1].lower()  # get the extension of the website
@@ -111,7 +111,7 @@ class UOITCrawler:
 
     def _uoit_url(self, neigh_node: str) -> bool:
         """
-        Make sure the url is Ontariotechu.ca or uoit.ca domains
+        Make sure the url is ontariotechu.ca or uoit.ca domains
         :param neigh_node: current node being explored from the root
         :return: bool indicating whether the link is a UOIT webpage
         """
