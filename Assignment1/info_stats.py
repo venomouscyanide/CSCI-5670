@@ -16,7 +16,7 @@ def get_edges(graph):
 
 def plot_deg_dist(log_log):
     freq_count = defaultdict(int)
-    for url, degree in graph.out_degree():
+    for url, degree in graph.degree():
         freq_count[degree] += 1
 
     plt.figure(1)

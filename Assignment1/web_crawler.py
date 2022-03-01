@@ -42,6 +42,8 @@ class UOITCrawler:
             focus_node = queue.get()  # current focus node whose neighbors are to be explored
             bfs_seq.append(focus_node)  # add the focus node to the queue
 
+            self._print_log(focus_node, seen, bfs_seq)
+
             self._random_sleep()  # randomly sleep to avoid being seen as a crawler
 
             try:  # There are multiple errors which you can get, shows the exception so that it can be better handled
@@ -61,7 +63,6 @@ class UOITCrawler:
                             neigh_node = urljoin(focus_node, neigh_node)
 
                         if self._uoit_url(neigh_node):  # a uoit webpage? update graph, add to queue and mark as seen
-                            self._print_log(neigh_node, seen, bfs_seq)
                             self._queue_helper(focus_node, neigh_node, queue, seen, graph)
 
                         if len(seen) % 5000 == 0:  # save the graph every 5000 nodes in case the code breaks
