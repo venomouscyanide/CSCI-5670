@@ -60,9 +60,6 @@ class UOITCrawler:
                         if neigh_node.startswith('/'):  # relative links need to be made absolute
                             neigh_node = urljoin(focus_node, neigh_node)
 
-                        if neigh_node in seen:  # already seen? move on
-                            continue
-
                         if self._uoit_url(neigh_node):  # a uoit webpage? add to queue, update graph and mark as seen
                             self._print_log(neigh_node, seen, bfs_seq)
                             self._queue_helper(focus_node, neigh_node, queue, seen, graph)
@@ -145,6 +142,8 @@ class UOITCrawler:
         :return: None
         """
         graph.add_edge(focus_node, neigh_node)  # update graph with an edge
+        if neigh_node in seen:  # already seen? move on
+            return
         queue.put(neigh_node)  # enqueue
         seen.add(neigh_node)  # update seen
 
