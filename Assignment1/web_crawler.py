@@ -60,7 +60,7 @@ class UOITCrawler:
                         if neigh_node.startswith('/'):  # relative links need to be made absolute
                             neigh_node = urljoin(focus_node, neigh_node)
 
-                        if self._uoit_url(neigh_node):  # a uoit webpage? add to queue, update graph and mark as seen
+                        if self._uoit_url(neigh_node):  # a uoit webpage? update graph, add to queue and mark as seen
                             self._print_log(neigh_node, seen, bfs_seq)
                             self._queue_helper(focus_node, neigh_node, queue, seen, graph)
 
@@ -133,7 +133,9 @@ class UOITCrawler:
     def _queue_helper(self, focus_node: str, neigh_node: str, queue: SimpleQueue, seen: Set[str], graph: nx.DiGraph) \
             -> None:
         """
-        Helper method to add a node to the queue, mark it as seen and add an edge to the final info network
+        Helper method to add a node to the queue, mark it as seen and add an edge to the final info network.
+        It is to be noted that if the neighboring node is already seen, queue and seen are not updated.
+        Regardless of whether the node has been seen or not, the graph will get updated.
         :param focus_node: Root node popped from the queue whose neighbors are to be traversed
         :param neigh_node: Neighboring node of the root node
         :param queue: SimpleQueue to help in BFS
@@ -142,7 +144,7 @@ class UOITCrawler:
         :return: None
         """
         graph.add_edge(focus_node, neigh_node)  # update graph with an edge
-        if neigh_node in seen:  # already seen? move on
+        if neigh_node in seen:  # already seen? don't add it to the queue and don't mark as seen. Simply return
             return
         queue.put(neigh_node)  # enqueue
         seen.add(neigh_node)  # update seen
