@@ -19,7 +19,7 @@ def get_edges(graph):
     return graph.number_of_edges()
 
 
-def plot_deg_dist(log_log):
+def plot_deg_dist(log_log, graph):
     freq_count = defaultdict(int)
     for url, degree in graph.degree():
         freq_count[degree] += 1
@@ -34,7 +34,6 @@ def plot_deg_dist(log_log):
         plt.yscale('log')
         plt.xlabel('Log Degree')
         plt.ylim(1, max(freq_count.values()))
-    if log_log:
         plt.title('Log-Log Degree Distribution')
         plt.xscale('log')
         plt.ylabel('Log Count')
@@ -76,6 +75,7 @@ def community_analysis(graph):
 
 
 def _centrality_helper(type, cent_dict, df, top):
+    print(f"Running {type} for top={top}")
     top_bottom_10 = list(sorted(cent_dict.items(), key=operator.itemgetter(1), reverse=True))
     if top:
         top_bottom_10 = top_bottom_10[:10]
@@ -117,8 +117,8 @@ def get_stats(graph):
     avg_cc = average_clustering(graph)
     print(f"Average Clustering Coefficient: {avg_cc}", end='\n \n')
 
-    plot_deg_dist(log_log=False)
-    plot_deg_dist(log_log=True)
+    plot_deg_dist(False, graph)
+    plot_deg_dist(True, graph)
 
     connected_component_analysis(graph)
     community_analysis(graph)
@@ -129,5 +129,5 @@ def get_stats(graph):
 
 if __name__ == '__main__':
     # graph = nx.read_gexf('final_100000_len_graph.gexf')
-    graph = nx.read_gexf('interim_5000_len_graph_old.gexf')  # smaller graph
+    graph = nx.read_gexf('interim_20000_len_graph.gexf')  # smaller graph
     get_stats(graph)
