@@ -1,3 +1,8 @@
+"""
+Author: Paul Louis, <paul.louis@ontariotechu.ca>
+Helps capture all statistics related to the crawled UOIT info network
+"""
+
 import itertools
 import json
 import operator
