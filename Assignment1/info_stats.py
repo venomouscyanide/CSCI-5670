@@ -1,3 +1,5 @@
+import itertools
+import json
 import operator
 from collections import defaultdict
 
@@ -67,10 +69,22 @@ def connected_component_analysis(graph):
 
 
 def community_analysis(graph):
-    # add breakpoints and anylyze the communities in-memory
+    # add breakpoints and analyze the communities in-memory
     # greedy modularity based
-    greedy_communities = greedy_modularity_communities(graph)
-    gm_communities = girvan_newman(graph)
+
+    greedy_communities = greedy_modularity_communities(graph, n_communities=15)
+    comm_dict = {}
+    for index, comm in enumerate(greedy_communities):
+        comm_dict.update(
+            {index: {k: graph.degree(k) for k in list(sorted(comm, key=lambda x: graph.degree(x), reverse=True))[:3]}}
+        )
+
+    with open('community_detection.json', 'w') as file:
+        file.write(json.dumps(comm_dict))
+    # comp = girvan_newman(graph)
+    # limited = itertools.takewhile(lambda c: len(c) <= 15, comp)
+    # for communities in limited:
+    #     print(tuple(sorted(c) for c in communities))
     # lovain_communities = nx_comm.louvain_communities(graph) # this is broken
 
 
