@@ -1,6 +1,6 @@
 """
 Author: Paul Louis, <paul.louis@ontariotechu.ca>
-An attempt at summaring and visualizing UOIT information network
+An attempt at summarizing and visualizing UOIT information network
 """
 import math
 
