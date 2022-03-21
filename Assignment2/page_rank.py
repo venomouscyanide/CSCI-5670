@@ -8,7 +8,7 @@ from numpy.linalg import linalg
 
 
 def page_rank_analysis():
-    s = 0.8  # scaling factor
+    s = 0.9  # scaling factor
     # eg from https://cs.brown.edu/courses/cs016/static/files/assignments/projects/GraphHelpSession.pdf slide 9
     # ajc_matrix = np.array([[0, 0, 0, 0],
     #                        [1, 0, 0, 0],
@@ -95,19 +95,36 @@ def page_rank_analysis():
     prev = page_rank_matrix.copy()
     curr = np.array([0 for _ in range(18)])
     k = 1
-    while not (prev == curr).all():
-        print(f"Running iteration: {k}")
+    while not np.allclose(curr, prev):
+        # print(f"Running iteration: {k}")
 
         pr_k_iter = np.matmul(linalg.matrix_power(n_matrix.T, k), page_rank_matrix)
 
         prev = np.matmul(linalg.matrix_power(n_matrix.T, k - 1), page_rank_matrix)
         curr = pr_k_iter.copy()
 
-        print(np.sum(prev))
-        print(np.sum(curr))
+        # print(np.sum(prev))
+        # print(np.sum(curr))
         k += 1
-
+    print(curr)
     print(f"Done pagerank. No of iterations:{k - 1}")
+
+    prev = page_rank_matrix.copy()
+    curr = np.array([0 for _ in range(18)])
+    k = 1
+    while not np.allclose(curr, prev):
+        # print(f"Running iteration: {k}")
+
+        pr_k_iter = np.matmul(linalg.matrix_power(n_prime_matrix.T, k), page_rank_matrix)
+
+        prev = np.matmul(linalg.matrix_power(n_prime_matrix.T, k - 1), page_rank_matrix)
+        curr = pr_k_iter.copy()
+
+        # print(np.sum(prev))
+        # print(np.sum(curr))
+        k += 1
+    print(curr)
+    print(f"Done scaled pagerank. No of iterations:{k - 1}")
 
 
 if __name__ == '__main__':
