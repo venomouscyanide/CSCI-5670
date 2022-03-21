@@ -9,7 +9,11 @@ from numpy.linalg import linalg
 
 def page_rank_analysis():
     s = 0.8  # scaling factor
-
+    # eg from https://cs.brown.edu/courses/cs016/static/files/assignments/projects/GraphHelpSession.pdf slide 9
+    # ajc_matrix = np.array([[0, 0, 0, 0],
+    #                        [1, 0, 0, 0],
+    #                        [1, 0, 0, 0],
+    #                        [1, 0, 0, 0]])
     # Eg from textbook
     # ajc_matrix = np.array([[0, 1, 1, 0, 0, 0, 0, 0],
     #                       [0, 0, 0, 1, 1, 0, 0, 0],
@@ -63,8 +67,12 @@ def page_rank_analysis():
             updated_row = row / non_zero
             n_matrix[ind] = updated_row
 
-            scaled_updated_row = updated_row * s + (1 - s) / n
-            n_prime_matrix[ind] = scaled_updated_row
+        else:
+            updated_row = np.array([1 if index == ind else 0 for index in range(n)])
+            n_matrix[ind] = updated_row
+
+        scaled_updated_row = updated_row * s + (1 - s) / n
+        n_prime_matrix[ind] = scaled_updated_row
 
     page_rank_matrix = np.array([1 / n for _ in range(n)])  # column page rank matrix
     page_rank_matrix.resize([n, 1])
@@ -100,7 +108,6 @@ def page_rank_analysis():
         k += 1
 
     print(f"Done pagerank. No of iterations:{k - 1}")
-    print("Dunzo! #ad")
 
 
 if __name__ == '__main__':
