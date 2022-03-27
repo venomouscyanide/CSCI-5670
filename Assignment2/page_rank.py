@@ -11,6 +11,7 @@ from typing import Union
 import networkx as nx  # used for creation and interaction with graphs
 import numpy as np  # used for matrix arithmetic
 import matplotlib.pyplot as plt  # used for plotting the original graph
+import pandas as pd  # used for creating CSV files
 from networkx import relabel_nodes  # used to relabel networkx graph nodes
 from numpy.linalg import linalg  # used for matrix power arithmetic
 
@@ -70,7 +71,8 @@ def pr_until_conv(page_rank_matrix, n_matrix, verbose=False):
 
     # number of iterations will be always one above due to exit condition above. So, subtract 1 to get actual value
     k -= 1
-    print(f"Pagerank Converged. No of iterations run: {k}")
+    if verbose:
+        print(f"Pagerank Converged. No of iterations run: {k}")
     return curr
 
 
@@ -119,6 +121,33 @@ def page_rank_analysis(ajc_matrix, scaled=False, draw=False, k: Union[float, int
     return pr_k_iter
 
 
+def perturb_ajc_analysis(ajc_matrix):
+    # delete one edge at a time and observe the creation of sinks
+
+    print("-----------")
+    table_for_report = pd.DataFrame(columns=["New Sink", "Edge Deleted for Sink Creation"])  # used for creating table
+
+    original_pr_conv = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=math.inf)  # original converged PR
+    expected_sinks = np.where(np.around(original_pr_conv, decimals=5) != 0)[0]  # default sinks that occur
+    org_non_zero = len(expected_sinks)  # original number of sinks expected
+
+    for row_ind, row in enumerate(ajc_matrix):  # go over the rows
+        for col_ind, row_col_value in enumerate(row):  # go over the columns in the row
+            if row_col_value:  # if an edge exists, it should be deleted
+                copy_adj = ajc_matrix.copy()  # copy the adjacency matrix for deleting the edge
+                copy_adj[row_ind, col_ind] = 0  # edge deleted
+
+                pr_k_conv = page_rank_analysis(copy_adj, scaled=False, draw=False, k=math.inf)  # new converged PR
+                current_sinks = np.where(np.around(pr_k_conv, decimals=5) != 0)[0]  # new sinks after perturbation
+                curr_non_zero_pr = len(current_sinks)  # number of new sinks
+                if curr_non_zero_pr > org_non_zero:  # if new sinks introduced add to the table
+                    print(f"Node {row_ind + 1} , edge:{row_ind + 1}->{col_ind + 1}")
+                    print(f"New Sinks: {set(current_sinks + 1) - set(expected_sinks + 1)}")
+                    table_for_report.loc[len(table_for_report)] = [row_ind + 1, f"({row_ind + 1},{col_ind + 1})"]
+                    print("-----------")
+    table_for_report.to_csv("sink_table.csv", index=False)  # save as CSV to be added to the report
+
+
 if __name__ == '__main__':
     # eg from https://cs.brown.edu/courses/cs016/static/files/assignments/projects/GraphHelpSession.pdf slide 9
     # ajc_matrix = np.array([[0, 0, 0, 0],
@@ -164,6 +193,9 @@ if __name__ == '__main__':
 
     # answer to question 4.c
     pr_k_conv = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=math.inf)
+
+    # answer to question 4.d
+    perturb_ajc_analysis(ajc_matrix)
 
     # answer to question 4.f
     s = 0.9  # scaling factor
