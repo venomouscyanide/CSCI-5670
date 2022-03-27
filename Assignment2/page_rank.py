@@ -156,7 +156,7 @@ if __name__ == '__main__':
     # answer to question 4.a
     pr_k_1 = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=1)
     zero_pr = np.where(pr_k_1 == 0)[0]
-    # zeros -> 6, 11, 12, 17
+    zero_pr = zero_pr + 1  # fix node label to match graph given
 
     # answer to question 4.b
     pr_k_2 = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=2)
