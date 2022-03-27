@@ -15,7 +15,7 @@ from networkx import relabel_nodes  # used to relabel networkx graph nodes
 from numpy.linalg import linalg  # used for matrix power arithmetic
 
 
-def _get_n_matrices(ajc_matrix, n, scale):
+def _get_n_matrices(ajc_matrix, n, s):
     n_matrix = ajc_matrix.copy()  # Init N matrix as a copy of the original adjacency matrix
     n_matrix = n_matrix.astype(float)  # make sure the matrix is of float type for PR formulation
 
@@ -44,7 +44,7 @@ def _get_n_matrices(ajc_matrix, n, scale):
             n_matrix[ind] = updated_row
 
         # create the scaled PR matrix row(multiply by S and add (1-S)/N)
-        scaled_updated_row = updated_row * scale + (1 - scale) / n
+        scaled_updated_row = updated_row * s + (1 - s) / n
         n_prime_matrix[ind] = scaled_updated_row
     return n_matrix, n_prime_matrix
 
@@ -82,7 +82,7 @@ def draw_graph(graph):
     f.savefig("input_graph.pdf", bbox_inches='tight')
 
 
-def page_rank_analysis(ajc_matrix, scaled=False, draw=False, k: Union[float, int] = 1, scale=0.0):
+def page_rank_analysis(ajc_matrix, scaled=False, draw=False, k: Union[float, int] = 1, s=0.0):
     graph = nx.from_numpy_matrix(ajc_matrix, create_using=nx.DiGraph)  # create a nx graph object
     # t = list(string.ascii_lowercase) # helps in viz textbook eg(optional)
     # graph = relabel_nodes(graph, mapping={k: t[k].upper() for k in range(18)}) # optional
@@ -93,7 +93,7 @@ def page_rank_analysis(ajc_matrix, scaled=False, draw=False, k: Union[float, int
         draw_graph(graph)
 
     n = graph.number_of_nodes()  # get number of nodes in the graph
-    n_matrix, n_prime_matrix = _get_n_matrices(ajc_matrix, n, scale)  # calculate N and N prime matrices for PageRank
+    n_matrix, n_prime_matrix = _get_n_matrices(ajc_matrix, n, s)  # calculate N and N prime matrices for PageRank
 
     # create initial PR matrix. Each value is 1/number of nodes. In our question it's 1/18
     page_rank_matrix = np.array([1 / n for _ in range(n)])
@@ -163,9 +163,9 @@ if __name__ == '__main__':
     pr_k_3 = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=3)
 
     # answer to question 4.c
-    scale = 0.9  # scaling factor
-    pr_k_conv = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=math.inf, scale=scale)
+    s = 0.9  # scaling factor
+    pr_k_conv = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=math.inf, s=s)
 
     # answer to question 4.f
-    scale = 0.9  # scaling factor
-    sclaled_pr_k = page_rank_analysis(ajc_matrix, scaled=True, draw=False, k=math.inf, scale=scale)
+    s = 0.9  # scaling factor
+    scaled_pr_k = page_rank_analysis(ajc_matrix, scaled=True, draw=False, k=math.inf, s=s)
