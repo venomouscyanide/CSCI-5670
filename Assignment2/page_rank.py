@@ -163,8 +163,7 @@ if __name__ == '__main__':
     pr_k_3 = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=3)
 
     # answer to question 4.c
-    s = 0.9  # scaling factor
-    pr_k_conv = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=math.inf, s=s)
+    pr_k_conv = page_rank_analysis(ajc_matrix, scaled=False, draw=False, k=math.inf)
 
     # answer to question 4.f
     s = 0.9  # scaling factor
