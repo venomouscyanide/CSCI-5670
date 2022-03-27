@@ -52,13 +52,14 @@ if __name__ == '__main__':
     # answer to question 5.a
     k = 2  # number of updates
     # the adjacency matrix manually created for the network given
-    ajc_matrix = np.array([[0, 0, 0, 0, 0, 0, 0],
-                           [0, 0, 0, 0, 0, 0, 0],
-                           [1, 0, 0, 0, 0, 0, 0],
-                           [1, 0, 0, 0, 0, 0, 0],
-                           [1, 1, 0, 0, 0, 0, 0],
-                           [0, 1, 0, 0, 0, 0, 1],
-                           [0, 0, 0, 0, 0, 0, 0]])
+    ajc_matrix = np.array([[0, 0, 0, 0, 0, 0, 0],  # A
+                           [0, 0, 0, 0, 0, 0, 0],  # B
+                           [1, 0, 0, 0, 0, 0, 0],  # C
+                           [1, 0, 0, 0, 0, 0, 0],  # D
+                           [1, 1, 0, 0, 0, 0, 0],  # E
+                           [0, 1, 0, 0, 0, 0, 1],  # F
+                           [0, 0, 0, 0, 0, 0, 0]  # G
+                           ])
     auth_k, auth_k_norm, hub_k, hub_k_norm = run_hubs_auth(ajc_matrix, k)
     print('---------------')
     print(auth_k)
@@ -67,5 +68,64 @@ if __name__ == '__main__':
     print(hub_k_norm)
     print('---------------')
 
-    # answer to question 5.b
+    # answer to question 5.b.1
+    k = 2
+    # adjacency matrix updated to include X, Y and edge (Y,X)
+    ajc_matrix = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],  # A
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # B
+                           [1, 0, 0, 0, 0, 0, 0, 0, 0],  # C
+                           [1, 0, 0, 0, 0, 0, 0, 0, 0],  # D
+                           [1, 1, 0, 0, 0, 0, 0, 0, 0],  # E
+                           [0, 1, 0, 0, 0, 0, 1, 0, 0],  # F
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # G
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # X
+                           [0, 0, 0, 0, 0, 0, 0, 1, 0]  # Y
+                           ])
+    auth_k, auth_k_norm, _, _ = run_hubs_auth(ajc_matrix, k)
+
+    print('---------------')
+    print(auth_k)
+    print(auth_k_norm)
+    print('---------------')
+
+    # answer to question 5.b.2
+    k = 2
+    # adjacency matrix updated to include X, Y and edge (Y,X)
+    ajc_matrix = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],  # A
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # B
+                           [1, 0, 0, 0, 0, 0, 0, 0, 0],  # C
+                           [1, 0, 0, 0, 0, 0, 0, 0, 0],  # D
+                           [1, 1, 0, 0, 0, 0, 0, 0, 0],  # E
+                           [0, 1, 0, 0, 0, 0, 1, 0, 0],  # F
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # G
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # X
+                           [1, 0, 0, 0, 0, 0, 0, 1, 0]   # Y
+                           ])
+    auth_k, auth_k_norm, _, _ = run_hubs_auth(ajc_matrix, k)
+
+    print('---------------')
+    print(auth_k)
+    print(auth_k_norm)
+    print('---------------')
+
+    # answer to question 5.b.3
+    k = 2
+    # adjacency matrix updated to include X, Y and edge (Y,X)
+    ajc_matrix = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],  # A
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # B
+                           [1, 0, 0, 0, 0, 0, 0, 0, 0],  # C
+                           [1, 0, 0, 0, 0, 0, 0, 0, 0],  # D
+                           [1, 1, 0, 0, 0, 0, 0, 0, 0],  # E
+                           [0, 1, 0, 0, 0, 0, 1, 0, 0],  # F
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # G
+                           [0, 0, 0, 0, 0, 0, 0, 0, 0],  # X
+                           [1, 1, 0, 0, 0, 0, 1, 1, 0]   # Y
+                           ])
+    auth_k, auth_k_norm, _, _ = run_hubs_auth(ajc_matrix, k)
+
+    print('---------------')
+    print(auth_k)
+    print(auth_k_norm)
+    print('---------------')
+
     print("Fin.")
