@@ -1,8 +1,8 @@
 """
-Description : Helps compute scaled and unscaled PageRank matrices using the Easley and Kleinberg PageRank formulations
+Description : Helps compute Hubs and Authority scores using the Easley and Kleinberg PageRank formulations
 Course : CSCI 5760
 Author : Paul Louis <paul.louis@ontariotechu.net>
-Usage : python3.9 page_rank.py
+Usage : python3.9 hubs_auth.py
 """
 
 from math import sqrt
