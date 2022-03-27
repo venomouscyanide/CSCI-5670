@@ -71,7 +71,7 @@ def pr_until_conv(page_rank_matrix, n_matrix, verbose=False):
     # number of iterations will be always one above due to exit condition above. So, subtract 1 to get actual value
     k -= 1
     print(f"Pagerank Converged. No of iterations run: {k}")
-    return k
+    return curr
 
 
 def draw_graph(graph):
